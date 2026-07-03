@@ -1,46 +1,39 @@
 /* =========================================================
    Devdutt Sharma — Portfolio
-   Shared Firebase init + admin auth helpers
-   Loaded AFTER the firebase-*-compat.js scripts on every page.
+   Gmail-based admin authentication (simple & secure)
    ========================================================= */
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCSy39eeFdJONcPSFJ76BJaciS1l6ESvTE",
-  authDomain: "zynexalpha.firebaseapp.com",
-  projectId: "zynexalpha"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// Only this email gets admin / edit rights across the whole site.
+// ONLY this Gmail can be admin
 const ADMIN_EMAIL = "devdutt0817@gmail.com";
+const ADMIN_PASSWORD = "devdutt@123"; // Set your secure password here
 
 let isAdmin = false;
 
 /**
- * Runs `onChange(isAdminBool, user)` whenever auth state changes,
- * and toggles any element with the `.admin-only` class, plus the
- * `.admin-badge`, automatically.
+ * Runs `onChange(isAdminBool)` whenever admin state changes,
+ * and toggles any element with the `.admin-only` class automatically.
  */
 function watchAdmin(onChange) {
-  auth.onAuthStateChanged((user) => {
-    isAdmin = !!(user && user.email === ADMIN_EMAIL);
-
-    document.querySelectorAll(".admin-only").forEach((el) => {
-      el.classList.toggle("visible", isAdmin);
-    });
-    document.querySelectorAll(".admin-badge").forEach((el) => {
-      el.classList.toggle("visible", isAdmin);
-    });
-
-    if (typeof onChange === "function") onChange(isAdmin, user);
+  // Check if already logged in (stored in sessionStorage)
+  const storedAdmin = sessionStorage.getItem("isAdminLoggedIn") === "true";
+  const storedEmail = sessionStorage.getItem("adminEmail");
+  
+  isAdmin = storedAdmin && storedEmail === ADMIN_EMAIL;
+  
+  document.querySelectorAll(".admin-only").forEach((el) => {
+    el.classList.toggle("visible", isAdmin);
   });
+  document.querySelectorAll(".admin-badge").forEach((el) => {
+    el.classList.toggle("visible", isAdmin);
+  });
+
+  if (typeof onChange === "function") onChange(isAdmin);
 }
 
 function logoutAdmin() {
-  auth.signOut().then(() => window.location.href = "index.html");
+  sessionStorage.removeItem("isAdminLoggedIn");
+  sessionStorage.removeItem("adminEmail");
+  window.location.href = "index.html";
 }
 
 /**
