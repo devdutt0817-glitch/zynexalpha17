@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills — Devdutt Sharma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="titlebar">
+  <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+  <div class="path">~<span class="sep">/</span>devdutt-sharma<span class="sep">/</span>portfolio<span class="sep">/</span>skills.html</div>
+</div>
+
+<nav class="tabbar">
+  <a class="tab" data-page="index.html" href="index.html"><span class="dot-lang html"></span>index.html</a>
+  <a class="tab" data-page="about.html" href="about.html"><span class="dot-lang html"></span>about.html</a>
+  <a class="tab" data-page="projects.html" href="projects.html"><span class="dot-lang html"></span>projects.html</a>
+  <a class="tab" data-page="future-projects.html" href="future-projects.html"><span class="dot-lang html"></span>future.html</a>
+  <a class="tab" data-page="skills.html" href="skills.html"><span class="dot-lang html"></span>skills.html</a>
+  <a class="tab" data-page="contact.html" href="contact.html"><span class="dot-lang html"></span>contact.html</a>
+  <a class="tab" data-page="login.html" href="login.html"><span class="dot-lang auth"></span>login.html</a>
+  <a class="tab external" href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">↗ github</a>
+</nav>
+
+<main class="page">
+
+  <span class="admin-badge">● admin mode</span>
+
+  <section class="code-section">
+    <div class="gutter">1<br>2<br>3</div>
+    <div class="code-content">
+      <p class="eyebrow">skills.html</p>
+      <h1>Skills</h1>
+      <p class="muted">Languages, tools, and frameworks — updated as they're learned.</p>
+
+      <div class="skill-grid" id="skillGrid" style="margin-top:20px;">
+        <div class="empty-state" id="skillEmpty">No skills listed yet.</div>
+      </div>
+
+      <div class="admin-only" style="margin-top:20px; display:flex; gap:10px; max-width:360px;">
+        <input type="text" id="skillInput" placeholder="e.g. Python" style="flex:1; background:var(--bg-inset); border:1px solid var(--border); border-radius:6px; padding:10px 12px; color:var(--text); font-family:var(--sans);">
+        <button class="btn btn-primary btn-sm" id="addSkillBtn">Add</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-prompt"><span class="prompt">$</span> cd ../contact.html</div>
+    <div class="footer-links">
+      <a href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">GitHub</a>
+      <a href="contact.html">Contact</a>
+      <a class="admin-only" href="login.html" id="adminLoginLink">Admin login</a>
+      <a class="admin-only" href="#" id="adminLogoutLink" onclick="logoutAdmin(); return false;">Log out</a>
+    </div>
+  </footer>
+
+</main>
+
+<div class="statusbar">
+  <span><span class="pulse"></span> main</span>
+  <span>UTF-8</span>
+  <span>AI/ML · Web Dev</span>
+  <span id="statusAdmin">viewer mode</span>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="firebase-init.js"></script>
+<script>
+  const skillGrid = document.getElementById("skillGrid");
+  const skillEmpty = document.getElementById("skillEmpty");
+
+  function escapeHtml(str){
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+
+  function renderSkill(id, name){
+    if(skillEmpty && skillEmpty.isConnected) skillEmpty.remove();
+    const pill = document.createElement("span");
+    pill.className = "skill-pill";
+    pill.innerHTML = `${escapeHtml(name)} <span class="remove admin-only inline" data-id="${id}">✕</span>`;
+    pill.querySelector(".remove").addEventListener("click", () => {
+      db.collection("skills").doc(id).delete();
+      pill.remove();
+    });
+    skillGrid.appendChild(pill);
+  }
+
+  function loadSkills(){
+    db.collection("skills").orderBy("createdAt", "asc").get().then((snap) => {
+      if(!snap.empty && skillEmpty) skillEmpty.remove();
+      snap.forEach((doc) => renderSkill(doc.id, doc.data().name));
+    }).catch(() => {});
+  }
+  loadSkills();
+
+  document.getElementById("addSkillBtn").addEventListener("click", () => {
+    const input = document.getElementById("skillInput");
+    const name = input.value.trim();
+    if(!name) return;
+    db.collection("skills").add({
+      name, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then((ref) => {
+      renderSkill(ref.id, name);
+      input.value = "";
+    }).catch((err) => alert(err.message));
+  });
+
+  document.getElementById("skillInput").addEventListener("keydown", (e) => {
+    if(e.key === "Enter") document.getElementById("addSkillBtn").click();
+  });
+
+  watchAdmin((admin) => {
+    document.getElementById("statusAdmin").textContent = admin ? "admin mode" : "viewer mode";
+    document.getElementById("adminLoginLink").style.display = admin ? "none" : "";
+    document.getElementById("adminLogoutLink").classList.toggle("visible", admin);
+  });
+</script>
+
+</body>
+</html>
