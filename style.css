@@ -4,20 +4,20 @@
    ========================================================= */
 
 :root{
-  --bg: #0f0f0f;              /* Deep black background */
-  --bg-surface: #1a1a1a;      /* Card background */
-  --bg-elevated: #2a2a2a;
-  --bg-inset: #050505;
-  --text: #ffffff;            /* Pure white text */
-  --text-muted: #b0b0b0;
-  --text-faint: #666666;
-  --blue: #6366f1;            /* Indigo */
-  --green: #10b981;           /* Emerald */
-  --peach: #f97316;           /* Orange accent */
-  --red: #ef4444;
-  --yellow: #eab308;
-  --mauve: #d946ef;           /* Vibrant purple */
-  --border: #333333;
+  --bg: #0a0e27;              /* Dark blue-black */
+  --bg-surface: #1a1f3a;
+  --bg-elevated: #252d4a;
+  --bg-inset: #0d1117;
+  --text: #ffffff;
+  --text-muted: #a0aec0;
+  --text-faint: #64748b;
+  --blue: #3b82f6;            /* Bright blue */
+  --green: #10b981;           /* Bright green */
+  --peach: #ff6b6b;           /* Bright red */
+  --red: #ff0080;             /* Hot pink */
+  --yellow: #fbbf24;
+  --mauve: #8b5cf6;           /* Vibrant purple */
+  --border: #334155;
 }
 
   --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -201,30 +201,35 @@ p.muted{ color: var(--text-muted); }
 
 /* ---------- Buttons ---------- */
 
-.btn{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 13px;
-  padding: 10px 16px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--bg-surface);
-  color: var(--text);
-  cursor: pointer;
-  transition: border-color .15s ease, transform .1s ease, background .15s ease;
+/* Make buttons look like Linktree links */
+.btn {
+  width: 100%;
+  max-width: 320px;
+  margin: 10px auto;
+  display: block;
+  padding: 16px 24px;
+  border-radius: 12px;           /* Rounded corners like Linktree */
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-.btn:hover{ border-color: var(--blue); text-decoration:none; }
-.btn:active{ transform: translateY(1px); }
-.btn-primary{ background: var(--blue); border-color: var(--blue); color: var(--bg-inset); font-weight: 600; }
-.btn-primary:hover{ background: #9dbdf6; }
-.btn-accent{ background: var(--peach); border-color: var(--peach); color: var(--bg-inset); font-weight: 600; }
-.btn-accent:hover{ background: #f7bb99; }
-.btn-danger{ border-color: var(--red); color: var(--red); background: transparent; }
-.btn-danger:hover{ background: rgba(237,135,150,0.12); }
-.btn-block{ width: 100%; justify-content: center; }
-.btn-sm{ padding: 6px 10px; font-size: 12px; }
+
+.btn:hover {
+  transform: translateY(-4px);    /* Lift effect */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue), var(--mauve));
+  color: white;
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--peach), var(--red));
+  color: white;
+}
 
 /* ---------- Cards / file explorer style ---------- */
 
@@ -409,4 +414,73 @@ footer{
 a:focus-visible, button:focus-visible, [contenteditable]:focus-visible, input:focus-visible, textarea:focus-visible{
   outline: 2px solid var(--blue);
   outline-offset: 2px;
+}
+
+/* Optional: Make it more minimal */
+.titlebar {
+  background: linear-gradient(to right, var(--blue), var(--mauve));
+}
+
+.tabbar {
+  display: none;  /* Hide tabs for cleaner look */
+}
+
+.terminal {
+  border: 2px solid var(--blue);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
+}
+
+/* Center everything like Linktree */
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.code-section {
+  width: 100%;
+  max-width: 400px;
+  grid-template-columns: 1fr;  /* Single column */
+}
+
+.gutter {
+  display: none;  /* Hide line numbers */
+}
+
+.profile-card {
+  text-align: center;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--blue), var(--mauve));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+
+.profile-card h1 {
+  margin: 12px 0 6px;
+  font-size: 32px;
+}
+
+.bio {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin: 6px 0;
+}
+
+.bio-small {
+  font-size: 14px;
+  color: var(--text-faint);
+  margin: 8px 0 0;
 }
