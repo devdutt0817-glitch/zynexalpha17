@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Devdutt Sharma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="titlebar">
+  <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+  <div class="path">~<span class="sep">/</span>devdutt-sharma<span class="sep">/</span>portfolio<span class="sep">/</span>projects.html</div>
+</div>
+
+<nav class="tabbar">
+  <a class="tab" data-page="index.html" href="index.html"><span class="dot-lang html"></span>index.html</a>
+  <a class="tab" data-page="about.html" href="about.html"><span class="dot-lang html"></span>about.html</a>
+  <a class="tab" data-page="projects.html" href="projects.html"><span class="dot-lang html"></span>projects.html</a>
+  <a class="tab" data-page="future-projects.html" href="future-projects.html"><span class="dot-lang html"></span>future.html</a>
+  <a class="tab" data-page="skills.html" href="skills.html"><span class="dot-lang html"></span>skills.html</a>
+  <a class="tab" data-page="contact.html" href="contact.html"><span class="dot-lang html"></span>contact.html</a>
+  <a class="tab" data-page="login.html" href="login.html"><span class="dot-lang auth"></span>login.html</a>
+  <a class="tab external" href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">↗ github</a>
+</nav>
+
+<main class="page">
+
+  <span class="admin-badge">● admin mode</span>
+
+  <section class="code-section">
+    <div class="gutter">1<br>2<br>3</div>
+    <div class="code-content">
+      <p class="eyebrow">projects.html</p>
+      <h1>Projects</h1>
+      <p class="muted">Shipped and in-progress work. Source for most of these lives on <a href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">GitHub</a>.</p>
+
+      <div class="explorer" id="projectList" style="margin-top:24px;">
+        <!-- static projects -->
+        <div class="file-card">
+          <div class="file-icon" style="background:var(--blue)">AI</div>
+          <div class="file-meta">
+            <h3>AI Chatbot</h3>
+            <p>Conversational assistant built with an AI/ML backend.</p>
+            <div class="file-tags"><span class="tag">Python</span><span class="tag">ML</span></div>
+          </div>
+        </div>
+        <div class="file-card">
+          <div class="file-icon" style="background:var(--peach)">CMS</div>
+          <div class="file-meta">
+            <h3>Portfolio CMS</h3>
+            <p>Editable portfolio content system — the same admin pattern used on this site.</p>
+            <div class="file-tags"><span class="tag">JavaScript</span><span class="tag">Firebase</span></div>
+          </div>
+        </div>
+        <div class="file-card">
+          <div class="file-icon" style="background:var(--green)">FB</div>
+          <div class="file-meta">
+            <h3>Firebase Admin Panel</h3>
+            <p>Admin dashboard for managing app data and authenticated users.</p>
+            <div class="file-tags"><span class="tag">Firebase</span><span class="tag">Auth</span></div>
+          </div>
+        </div>
+        <!-- dynamic (Firestore) projects render here -->
+      </div>
+
+      <div class="add-card admin-only" id="addProjectCard" style="margin-top:12px;">+ add project</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-prompt"><span class="prompt">$</span> cd ../future-projects.html</div>
+    <div class="footer-links">
+      <a href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">GitHub</a>
+      <a href="future-projects.html">Future projects</a>
+      <a class="admin-only" href="login.html" id="adminLoginLink">Admin login</a>
+      <a class="admin-only" href="#" id="adminLogoutLink" onclick="logoutAdmin(); return false;">Log out</a>
+    </div>
+  </footer>
+
+</main>
+
+<!-- Add project modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 style="margin:0;">New project</h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="form-field">
+      <label for="pTitle">Title</label>
+      <input type="text" id="pTitle" placeholder="e.g. Weather Prediction API">
+    </div>
+    <div class="form-field">
+      <label for="pDesc">Description</label>
+      <textarea id="pDesc" placeholder="One or two lines about the project"></textarea>
+    </div>
+    <div class="form-field">
+      <label for="pLink">Link (optional)</label>
+      <input type="url" id="pLink" placeholder="https://github.com/devdutt0817-glitch/...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="modalCancel">Cancel</button>
+      <button class="btn btn-primary" id="modalSave">Add project</button>
+    </div>
+  </div>
+</div>
+
+<div class="statusbar">
+  <span><span class="pulse"></span> main</span>
+  <span>UTF-8</span>
+  <span>AI/ML · Web Dev</span>
+  <span id="statusAdmin">viewer mode</span>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="firebase-init.js"></script>
+<script>
+  const projectList = document.getElementById("projectList");
+  const addCard = document.getElementById("addProjectCard");
+  const modalBackdrop = document.getElementById("modalBackdrop");
+
+  function renderProject(p, index){
+    const card = document.createElement("div");
+    card.className = "file-card";
+    const initials = (p.title || "P").slice(0, 2).toUpperCase();
+    const colors = ["var(--mauve)", "var(--blue)", "var(--peach)", "var(--green)"];
+    card.innerHTML = `
+      <div class="file-icon" style="background:${colors[index % colors.length]}">${initials}</div>
+      <div class="file-meta">
+        <h3>${escapeHtml(p.title)}</h3>
+        <p>${escapeHtml(p.description || "")}</p>
+        ${p.link ? `<div class="file-tags"><a class="tag" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">↗ view</a></div>` : ""}
+      </div>
+      <div class="file-actions">
+        <button class="btn btn-sm btn-danger admin-only" data-id="${p.id}">remove</button>
+      </div>
+    `;
+    card.querySelector("button.admin-only")?.addEventListener("click", () => removeProject(p.id));
+    projectList.appendChild(card);
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+
+  function loadProjects(){
+    db.collection("projects").orderBy("createdAt", "asc").get().then((snap) => {
+      snap.forEach((doc, i) => renderProject({ id: doc.id, ...doc.data() }, i));
+    }).catch(() => { /* collection may not exist yet — that's fine */ });
+  }
+
+  function removeProject(id){
+    if(!confirm("Remove this project?")) return;
+    db.collection("projects").doc(id).delete();
+    document.querySelector(`button[data-id="${id}"]`)?.closest(".file-card")?.remove();
+  }
+
+  loadProjects();
+
+  addCard.addEventListener("click", () => modalBackdrop.classList.add("visible"));
+  document.getElementById("modalClose").addEventListener("click", () => modalBackdrop.classList.remove("visible"));
+  document.getElementById("modalCancel").addEventListener("click", () => modalBackdrop.classList.remove("visible"));
+
+  document.getElementById("modalSave").addEventListener("click", () => {
+    const title = document.getElementById("pTitle").value.trim();
+    const description = document.getElementById("pDesc").value.trim();
+    const link = document.getElementById("pLink").value.trim();
+    if(!title){ alert("Give the project a title."); return; }
+
+    db.collection("projects").add({
+      title, description, link,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then((ref) => {
+      renderProject({ id: ref.id, title, description, link }, projectList.children.length);
+      document.getElementById("pTitle").value = "";
+      document.getElementById("pDesc").value = "";
+      document.getElementById("pLink").value = "";
+      modalBackdrop.classList.remove("visible");
+    }).catch((err) => alert(err.message));
+  });
+
+  watchAdmin((admin) => {
+    document.getElementById("statusAdmin").textContent = admin ? "admin mode" : "viewer mode";
+    document.getElementById("adminLoginLink").style.display = admin ? "none" : "";
+    document.getElementById("adminLogoutLink").classList.toggle("visible", admin);
+  });
+</script>
+
+</body>
+</html>
