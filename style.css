@@ -415,17 +415,3 @@ a:focus-visible, button:focus-visible, [contenteditable]:focus-visible, input:fo
   outline: 2px solid var(--blue);
   outline-offset: 2px;
 }
-
-/* Optional: Make it more minimal */
-.titlebar {
-  background: linear-gradient(to right, var(--blue), var(--mauve));
-}
-
-.tabbar {
-  display: none;  /* Hide tabs for cleaner look */
-}
-
-.terminal {
-  border: 2px solid var(--blue);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
-}
