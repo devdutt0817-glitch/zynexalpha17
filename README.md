@@ -1,6 +1,6 @@
 # Devdutt Sharma — Portfolio
 
-A multi-page developer  portfolio styled like a code editor: tab-bar navigation,
+A multi-page developer portfolio styled like a code editor: tab-bar navigation,
 a terminal hero, and admin-only inline editing powered by Firebase.
 
 ## Files
