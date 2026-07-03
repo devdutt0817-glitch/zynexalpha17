@@ -29,20 +29,25 @@
 <div class="auth-shell">
   <p class="eyebrow" style="text-align:center;">login.html</p>
   <div class="auth-card">
-    <h1 style="text-align:center; font-size:22px;">Admin login</h1>
-    <p class="muted" style="text-align:center; font-size:13px; margin-top:-6px;">Only the site owner needs this. Everyone else can browse freely.</p>
+    <h1 style="text-align:center; font-size:22px;">Admin Portal</h1>
+    <p class="muted" style="text-align:center; font-size:13px; margin-top:-6px;">Only Devdutt can edit projects and site content.</p>
+
+    <div id="errorMessage" style="display:none; background:#ed8796; color:#1e1e2e; padding:12px; border-radius:6px; margin-bottom:16px; font-size:13px;"></div>
+    <div id="successMessage" style="display:none; background:#a6da95; color:#1e1e2e; padding:12px; border-radius:6px; margin-bottom:16px; font-size:13px;"></div>
 
     <div class="form-field" style="margin-top:24px;">
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="you@example.com">
+      <input type="email" id="email" placeholder="devdutt0817@gmail.com" readonly style="background:#302d41; opacity:0.7; cursor:not-allowed;">
     </div>
     <div class="form-field">
       <label for="password">Password</label>
-      <input type="password" id="password" placeholder="••••••••">
+      <input type="password" id="password" placeholder="Enter admin password">
     </div>
-    <button class="btn btn-primary btn-block" onclick="login()">Log in</button>
+    <button class="btn btn-primary btn-block" id="loginBtn" onclick="login()">Unlock Admin</button>
 
-    <p class="auth-switch">No account? <a href="signup.html">Sign up</a></p>
+    <p class="auth-switch" style="margin-top:20px; text-align:center; font-size:12px; color:#6e738d;">
+      ← <a href="index.html">Back to portfolio</a>
+    </p>
   </div>
 </div>
 
@@ -50,22 +55,70 @@
   <span><span class="pulse"></span> main</span>
   <span>UTF-8</span>
   <span>auth</span>
-  <span>&nbsp;</span>
+  <span>admin-only</span>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="firebase-init.js"></script>
 <script>
-function login(){
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => { window.location = "index.html"; })
-    .catch(err => alert(err.message));
+function showError(message) {
+  const errorDiv = document.getElementById("errorMessage");
+  errorDiv.textContent = "❌ " + message;
+  errorDiv.style.display = "block";
+  document.getElementById("successMessage").style.display = "none";
 }
+
+function showSuccess(message) {
+  const successDiv = document.getElementById("successMessage");
+  successDiv.textContent = "✓ " + message;
+  successDiv.style.display = "block";
+  document.getElementById("errorMessage").style.display = "none";
+}
+
+function hideMessages() {
+  document.getElementById("errorMessage").style.display = "none";
+  document.getElementById("successMessage").style.display = "none";
+}
+
+function login(){
+  const email = ADMIN_EMAIL; // Fixed to admin email
+  const password = document.getElementById("password").value;
+  const loginBtn = document.getElementById("loginBtn");
+
+  hideMessages();
+
+  // Validate password
+  if (!password) {
+    showError("Please enter your password");
+    return;
+  }
+
+  // Disable button during login
+  loginBtn.disabled = true;
+  loginBtn.textContent = "Verifying...";
+
+  // Simple password check
+  setTimeout(() => {
+    if (password === ADMIN_PASSWORD) {
+      // Store admin session
+      sessionStorage.setItem("isAdminLoggedIn", "true");
+      sessionStorage.setItem("adminEmail", email);
+      showSuccess("✓ Welcome admin! Redirecting...");
+      setTimeout(() => {
+        window.location = "index.html";
+      }, 1000);
+    } else {
+      showError("Incorrect password. Access denied.");
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Unlock Admin";
+      document.getElementById("password").value = "";
+    }
+  }, 300);
+}
+
+// Allow Enter key to submit
+document.getElementById("password").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") login();
+});
 </script>
 
 </body>
