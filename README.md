@@ -13,7 +13,7 @@ future-projects.html   Roadmap of planned projects (admin-editable)
 skills.html             Skill tags (admin-editable)
 contact.html            Social + email links, GitHub included
 login.html / signup.html   Firebase auth
-style.css                Shared design system
+style.css                Shared design system 
 firebase-init.js          Shared Firebase config + admin-check logic
 firestore.rules            Security rules — copy into Firebase Console
 ```
@@ -26,7 +26,7 @@ mostly just updating the admin account and turning on Firestore.
 1. Go to [console.firebase.google.com](https://console.firebase.google.com) → open the **zynexalpha** project.
 2. **Authentication → Users**
    - If `devdutts178@gmail.com` is listed, you can delete it or leave it — it no longer has admin rights.
-   - Click **Add user**, enter `devdutt0817@gmail.com` and set a password. This is now the *only* account with edit access.
+   - Click **Add user**,  enter `devdutt0817@gmail.com` and set a password. This is now the *only* account with edit access.
    - Click into that user → **Send email verification** (or use "Sign up" on your own site with that email, then verify via the email Firebase sends). The security rules require the email to be verified before it can write data — this stops someone from spoofing the address.
 3. **Firestore Database**
    - If you haven't already, click **Create database** → start in production mode → pick a region close to you (e.g. `asia-south1` for India).
