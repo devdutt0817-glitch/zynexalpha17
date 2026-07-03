@@ -3,6 +3,7 @@
 A multi-page developer portfolio styled like a code editor: tab-bar navigation,
 a terminal hero, and admin-only inline editing powered by Firebase.
 
+
 ## Files
 
 ```
@@ -35,7 +36,7 @@ mostly just updating the admin account and turning on Firestore.
 
 That's it on the Firebase side. The `firebaseConfig` in `firebase-init.js` already matches your existing project, so no keys need to change.
 
-## 2. How admin editing works
+## 2. How admin  editing works
 
 - Go to `login.html` and sign in with `devdutt0817@gmail.com`.
 - Once logged in, every page unlocks: an "admin mode" badge appears, and buttons like **Edit bio**, **+ add project**, **+ add planned project**, and skill remove buttons (✕) show up.
