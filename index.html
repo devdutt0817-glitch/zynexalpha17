@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devdutt Sharma — AI/ML Developer</title>
+<meta name="description" content="Portfolio of Devdutt Sharma, AI/ML developer and incoming Manipal University student.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="titlebar">
+  <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+  <div class="path">~<span class="sep">/</span>devdutt-sharma<span class="sep">/</span>portfolio</div>
+</div>
+
+<nav class="tabbar">
+  <a class="tab" data-page="index.html" href="index.html"><span class="dot-lang html"></span>index.html</a>
+  <a class="tab" data-page="about.html" href="about.html"><span class="dot-lang html"></span>about.html</a>
+  <a class="tab" data-page="projects.html" href="projects.html"><span class="dot-lang html"></span>projects.html</a>
+  <a class="tab" data-page="future-projects.html" href="future-projects.html"><span class="dot-lang html"></span>future.html</a>
+  <a class="tab" data-page="skills.html" href="skills.html"><span class="dot-lang html"></span>skills.html</a>
+  <a class="tab" data-page="contact.html" href="contact.html"><span class="dot-lang html"></span>contact.html</a>
+  <a class="tab" data-page="login.html" href="login.html"><span class="dot-lang auth"></span>login.html</a>
+  <a class="tab external" href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">↗ github</a>
+</nav>
+
+<main class="page">
+
+  <span class="admin-badge">● admin mode</span>
+
+  <div class="terminal">
+    <div class="terminal-bar">bash — devdutt@portfolio</div>
+    <div class="terminal-body">
+      <div class="terminal-line"><span class="prompt">$</span>whoami</div>
+      <p class="terminal-output" id="typed-name"></p>
+      <div class="terminal-line"><span class="prompt">$</span>cat role.txt</div>
+      <p class="terminal-output"><span id="typed-role"></span><span class="cursor"></span></p>
+    </div>
+  </div>
+
+  <section class="code-section">
+    <div class="gutter">1<br>2<br>3</div>
+    <div class="code-content">
+      <p class="eyebrow">about this build</p>
+      <h2>First-year AI/ML student, building things that ship.</h2>
+      <p class="muted">Incoming student at Manipal University, focused on machine learning, applied AI, and full-stack web development. This site doubles as a running log of projects — finished, in progress, and planned.</p>
+      <p>
+        <a class="btn btn-primary" href="projects.html">view projects →</a>
+        <a class="btn" href="contact.html">get in touch</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="code-section">
+    <div class="gutter">4<br>5<br>6</div>
+    <div class="code-content">
+      <p class="eyebrow">quick links</p>
+      <div class="explorer">
+        <div class="file-card">
+          <div class="file-icon" style="background:var(--blue)">GH</div>
+          <div class="file-meta">
+            <h3>GitHub</h3>
+            <p>Code, commits, and everything public.</p>
+          </div>
+          <div class="file-actions"><a class="btn btn-sm" href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">open ↗</a></div>
+        </div>
+        <div class="file-card">
+          <div class="file-icon" style="background:var(--peach)">P</div>
+          <div class="file-meta">
+            <h3>Projects</h3>
+            <p>AI chatbot, portfolio CMS, admin panel, and more.</p>
+          </div>
+          <div class="file-actions"><a class="btn btn-sm" href="projects.html">view →</a></div>
+        </div>
+        <div class="file-card">
+          <div class="file-icon" style="background:var(--green)">F</div>
+          <div class="file-meta">
+            <h3>Future projects</h3>
+            <p>What's next on the roadmap.</p>
+          </div>
+          <div class="file-actions"><a class="btn btn-sm" href="future-projects.html">view →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-prompt"><span class="prompt">$</span> echo "thanks for stopping by"</div>
+    <div class="footer-links">
+      <a href="https://github.com/devdutt0817-glitch" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/devdutt-sharma-54401541a" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://instagram.com/noverse17" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:devdutts178@gmail.com">Email</a>
+      <a class="admin-only" href="login.html" id="adminLoginLink">Admin login</a>
+      <a class="admin-only" href="#" id="adminLogoutLink" onclick="logoutAdmin(); return false;">Log out</a>
+    </div>
+  </footer>
+
+</main>
+
+<div class="statusbar">
+  <span><span class="pulse"></span> main</span>
+  <span>UTF-8</span>
+  <span>AI/ML · Web Dev</span>
+  <span id="statusAdmin">viewer mode</span>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="firebase-init.js"></script>
+<script>
+  // Typing animation for the terminal hero
+  function typeInto(el, text, speed, done){
+    let i = 0;
+    (function step(){
+      if(i <= text.length){
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(step, speed);
+      } else if (done) { done(); }
+    })();
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    const nameEl = document.getElementById("typed-name");
+    const roleEl = document.getElementById("typed-role");
+    typeInto(nameEl, "Devdutt Sharma", 45, () => {
+      typeInto(roleEl, "AI/ML Developer 🚀", 40);
+    });
+  });
+
+  watchAdmin((admin) => {
+    document.getElementById("statusAdmin").textContent = admin ? "admin mode" : "viewer mode";
+    document.getElementById("adminLoginLink").style.display = admin ? "none" : "";
+    document.getElementById("adminLogoutLink").classList.toggle("visible", admin);
+  });
+</script>
+
+</body>
+</html>
