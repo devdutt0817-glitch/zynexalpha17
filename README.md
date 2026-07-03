@@ -5,6 +5,7 @@ a terminal hero, and admin-only inline editing powered by Firebase.
 
 ## Files 
 
+ 
 ```
 index.html            Home
 about.html             Bio (blank, admin-editable)
