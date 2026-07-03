@@ -5,7 +5,7 @@
 
 // ONLY this Gmail can be admin
 const ADMIN_EMAIL = "devdutt0817@gmail.com";
-const ADMIN_PASSWORD = "devdutt@123"; // Set your secure password here
+const ADMIN_PASSWORD = "Ramji@17";
 
 let isAdmin = false;
 
